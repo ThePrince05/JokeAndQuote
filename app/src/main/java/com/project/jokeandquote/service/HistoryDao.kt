@@ -3,14 +3,14 @@ package com.project.jokeandquote.service
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import com.project.jokeandquote.helper.HistoryDatabaseHelper
+import com.project.jokeandquote.helper.DatabaseHelper
 import com.project.jokeandquote.model.HistoryRecord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class HistoryDao(private val context: Context) {
 
-    private val dbHelper = HistoryDatabaseHelper(context)
+    private val dbHelper = DatabaseHelper(context)
 
     // Insert record into the database asynchronously
     suspend fun insertRecord(record: HistoryRecord) {
@@ -37,54 +37,8 @@ class HistoryDao(private val context: Context) {
         }
     }
 
-    // Get records from the database (can be filtered by type)
-    fun getRecords(filterType: String? = null): List<HistoryRecord> {
-        val db = dbHelper.readableDatabase
-        val records = mutableListOf<HistoryRecord>()
 
-        val selection = if (filterType != null && filterType != "All") "type = ?" else null
-        val selectionArgs = if (filterType != null && filterType != "All") arrayOf(filterType) else null
-
-        val cursor: Cursor = db.query(
-            "history",
-            null,
-            selection,
-            selectionArgs,
-            null,
-            null,
-            "id DESC" // newest first
-        )
-
-        if (cursor.moveToFirst()) {
-            do {
-                val record = HistoryRecord(
-                    id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
-                    type = cursor.getString(cursor.getColumnIndexOrThrow("type")),
-                    dateIssued = cursor.getString(cursor.getColumnIndexOrThrow("dateIssued")),
-                    clientName = cursor.getString(cursor.getColumnIndexOrThrow("clientName")),
-                    eventName = cursor.getString(cursor.getColumnIndexOrThrow("eventName")),
-                    eventAddress = cursor.getString(cursor.getColumnIndexOrThrow("eventAddress")),
-                    eventLocation = cursor.getString(cursor.getColumnIndexOrThrow("eventLocation")),
-                    eventDate = cursor.getString(cursor.getColumnIndexOrThrow("eventDate")),
-                    eventTime = cursor.getString(cursor.getColumnIndexOrThrow("eventTime")),
-                    companyName = cursor.getString(cursor.getColumnIndexOrThrow("companyName")),
-                    companyAddress = cursor.getString(cursor.getColumnIndexOrThrow("companyAddress")),
-                    jobType = cursor.getString(cursor.getColumnIndexOrThrow("jobType")),
-                    jobDuration = cursor.getString(cursor.getColumnIndexOrThrow("jobDuration")),
-                    amountCharged = cursor.getString(cursor.getColumnIndexOrThrow("amountCharged")),
-                    fileName = cursor.getString(cursor.getColumnIndexOrThrow("fileName"))
-                )
-                records.add(record)
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        db.close()
-
-        return records
-    }
-
-
-    suspend fun getAllHistoryRecords(): List<HistoryRecord> {
+    suspend fun getAllRecords(): List<HistoryRecord> {
         return withContext(Dispatchers.IO) {
             val db = dbHelper.readableDatabase
             val records = mutableListOf<HistoryRecord>()

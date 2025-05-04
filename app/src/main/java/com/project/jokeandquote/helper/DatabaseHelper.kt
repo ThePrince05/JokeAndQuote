@@ -4,15 +4,15 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class HistoryDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_NAME = "history.db"
+        private const val DATABASE_NAME = "Database.db"
         private const val DATABASE_VERSION = 1
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        val createTableQuery = """
+        val createHistoryTable = """
             CREATE TABLE history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 type TEXT NOT NULL,  -- "Invoice" or "Quotation"
@@ -31,11 +31,29 @@ class HistoryDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABA
                 fileName TEXT
             )
         """.trimIndent()
-        db.execSQL(createTableQuery)
+
+        val createTalentDetailsTable = """
+            CREATE TABLE talentDetails (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                officeAddress TEXT,
+                phoneNumber TEXT,
+                emailAddress TEXT,
+                bankName TEXT,
+                accountNumber TEXT,
+                accountType TEXT,
+                nameOnAccount TEXT,
+                imageUrl TEXT
+            );
+        """.trimIndent()
+
+        db.execSQL(createTalentDetailsTable)
+        db.execSQL(createHistoryTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS history")
+        db.execSQL("DROP TABLE IF EXISTS talentDetails")
         onCreate(db)
     }
 }

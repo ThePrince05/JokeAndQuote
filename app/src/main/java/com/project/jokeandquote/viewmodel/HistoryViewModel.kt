@@ -51,7 +51,7 @@ class HistoryViewModel(application: Application, private val pdfService: PdfServ
 
     fun loadAllRecords() {
         viewModelScope.launch {
-            allRecords = historyDao.getAllHistoryRecords() // Fetch records from the database
+            allRecords = historyDao.getAllRecords() // Fetch records from the database
             _records.value = allRecords // Update LiveData
         }
     }
@@ -78,7 +78,7 @@ class HistoryViewModel(application: Application, private val pdfService: PdfServ
 
             // Delete from DB
             historyDao.delete(record)
-            val updatedRecords = historyDao.getAllHistoryRecords()
+            val updatedRecords = historyDao.getAllRecords()
 
             withContext(Dispatchers.Main) {
                 _records.value = updatedRecords
@@ -94,7 +94,7 @@ class HistoryViewModel(application: Application, private val pdfService: PdfServ
         viewModelScope.launch {
             _isLoading.value = true
             _records.value = if (query.isBlank()) {
-                historyDao.getAllHistoryRecords()
+                historyDao.getAllRecords()
             } else {
                 historyDao.searchRecords(query)
             }
