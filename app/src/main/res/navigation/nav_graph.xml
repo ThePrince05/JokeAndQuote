@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/quotationsFragment">
+
+    <fragment
+        android:id="@+id/quotationsFragment"
+        android:name="com.project.jokeandquote.view.QuotationFragment"
+        android:label="Quotations"
+        tools:layout="@layout/fragment_quotation" />
+
+    <fragment
+        android:id="@+id/invoiceFragment"
+        android:name="com.project.jokeandquote.view.InvoiceFragment"
+        android:label="Invoice"
+        tools:layout="@layout/fragment_invoice" />
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.project.jokeandquote.view.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history" />
+</navigation>

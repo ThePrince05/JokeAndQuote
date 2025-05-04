@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp">
+
+    <!-- Scrollable container filling the parent -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Inner layout holding all form fields -->
+        <LinearLayout
+            android:id="@+id/formContentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header Title -->
+            <TextView
+                android:id="@+id/headerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Invoice"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_gravity="center" />
+
+            <!-- Client -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ClientInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Client"
+                app:boxBackgroundMode="outline"
+                android:layout_marginTop="20dp"
+                app:startIconDrawable="@drawable/ic_person"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/clientInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Company Name -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/CompanyNameInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Company Name"
+                app:boxBackgroundMode="outline"
+                android:layout_marginTop="12dp"
+                app:startIconDrawable="@drawable/ic_company"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/companyNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Company Address -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/CompanyAddressInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Company Address"
+                app:boxBackgroundMode="outline"
+                android:layout_marginTop="12dp"
+                app:startIconDrawable="@drawable/ic_companyaddress"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/companyAddressInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Event Name -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/eventNameInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event Name"
+                app:boxBackgroundMode="outline"
+                android:layout_marginTop="12dp"
+                app:startIconDrawable="@drawable/ic_eventname"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eventNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Event Address -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/eventAddressInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event Address"
+                app:boxBackgroundMode="outline"
+                android:layout_marginTop="12dp"
+                app:startIconDrawable="@drawable/ic_location"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eventAddressInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Event Date -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/eventDateInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event Date"
+                app:boxBackgroundMode="outline"
+                android:layout_marginTop="12dp"
+                app:startIconDrawable="@drawable/ic_calendar"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eventDateInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Event Time -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/timeInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event Time"
+                app:boxBackgroundMode="outline"
+                android:layout_marginTop="12dp"
+                app:startIconDrawable="@drawable/ic_clock"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/timeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Amount Charged -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amountInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Amount Charged"
+                app:boxBackgroundMode="outline"
+                android:layout_marginTop="12dp"
+                app:startIconDrawable="@drawable/ic_money"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/amountInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- CardView for Job Type and Duration -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/jobCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutline"
+                android:backgroundTint="?attr/colorSurfaceContainerLow">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="@color/layoutBgColor">
+
+                    <!-- Job Type -->
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/jobTypeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Job Type"
+                        android:textAppearance="?attr/textAppearanceTitleSmall"
+                        android:layout_marginTop="8dp"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/jobTypeChipGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        app:singleSelection="true"
+                        app:selectionRequired="true"
+                        app:chipSpacingHorizontal="8dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipComedySet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comedy Set"
+                            android:checkable="true"
+                            app:chipBackgroundColor="@color/chip_selector"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipMC"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="MC"
+                            android:checkable="true"
+                            app:chipBackgroundColor="@color/chip_selector"/>
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <!-- Job Duration -->
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/durationLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Job Duration"
+                        android:textAppearance="?attr/textAppearanceTitleSmall"
+                        android:layout_marginTop="16dp" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/jobDurationChipGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        app:singleSelection="true"
+                        app:selectionRequired="true"
+                        app:chipSpacingVertical="8dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip30min"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30 Minutes"
+                            android:checkable="true"
+                            app:chipBackgroundColor="@color/chip_selector"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip1hour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1 Hour"
+                            android:checkable="true"
+                            app:chipBackgroundColor="@color/chip_selector"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip2hours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2 Hours"
+                            android:checkable="true"
+                            app:chipBackgroundColor="@color/chip_selector"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipWholeDay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Whole Day"
+                            android:checkable="true"
+                            app:chipBackgroundColor="@color/chip_selector"/>
+                    </com.google.android.material.chip.ChipGroup>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-- Generate Button -->
+            <Button
+                android:id="@+id/btnGenerate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Generate"
+                android:layout_marginTop="32dp"/>
+
+            <!-- Clear Button -->
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+                android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

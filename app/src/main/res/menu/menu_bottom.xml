@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/Quotation"
+        android:icon="@drawable/receipt_solid"
+        android:title="Quotation"
+        app:cnb_backgroundColor="@color/dodgerBlue"
+        app:cnb_iconColor="@color/white" />
+    <item
+        android:id="@+id/Invoice"
+        android:icon="@drawable/file_invoice_solid"
+        android:title="Invoice"
+        app:cnb_backgroundColor="@color/dodgerBlue"
+        app:cnb_iconColor="@color/white" />
+    <item
+        android:id="@+id/History"
+        android:icon="@drawable/clock_rotate_left_solid"
+        android:title="History"
+        app:cnb_backgroundColor="@color/dodgerBlue"
+        app:cnb_iconColor="@color/white" />
+</menu>

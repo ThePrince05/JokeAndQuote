@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color  name="dodgerBlue">#0C83E4</color>
+    <color  name="lightDodger">#248FE6</color>
+    <color  name="grey">#49454F</color>
+    <color  name="lightGrey">#607D8B</color>
+    <color name="layoutBgColor">#FEF7FF</color>
+</resources>
