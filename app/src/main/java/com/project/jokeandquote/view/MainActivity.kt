@@ -43,8 +43,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        //initialize Apache Android pdfbox
-        PDFBoxResourceLoader.init(applicationContext)
 
 
         val navHostFragment = supportFragmentManager
@@ -62,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.Quotation -> navController.navigate(R.id.quotationsFragment)
                 R.id.Invoice -> navController.navigate(R.id.invoiceFragment)
                 R.id.History -> navController.navigate(R.id.historyFragment)
+                R.id.Settings -> navController.navigate(R.id.settingsFragment)
             }
         }
     }
@@ -83,32 +82,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
     private var onPermissionGrantedCallback: (() -> Unit)? = null
 
-    fun checkAndRequestStoragePermission(onPermissionGranted: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { // Android 10 (API 29) and above
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                onPermissionGrantedCallback = onPermissionGranted
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    STORAGE_PERMISSION_CODE
-                )
-            } else {
-                onPermissionGranted()
-            }
-        } else {
-            // Below Android 10: permission not needed or not requested
-            onPermissionGranted()
-        }
-    }
 
 
 }

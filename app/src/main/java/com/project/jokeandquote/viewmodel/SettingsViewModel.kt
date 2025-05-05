@@ -12,7 +12,7 @@ val phoneNumber = MutableLiveData<String>()
 val emailAddress = MutableLiveData<String>()
 val bankName = MutableLiveData<String>()
 val accountNumber = MutableLiveData<String>()
-val accountType = MutableLiveData<String>()
 val nameOnAccount = MutableLiveData<String>()
+val accountType = MutableLiveData<String>()
 
 }

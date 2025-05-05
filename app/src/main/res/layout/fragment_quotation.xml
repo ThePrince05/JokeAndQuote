@@ -189,6 +189,7 @@
                             android:layout_height="wrap_content"
                             android:text="Comedy Set"
                             android:checkable="true"
+                            android:textColor="@color/chip_text_color_selector"
                             app:chipBackgroundColor="@color/chip_selector"/>
 
                         <com.google.android.material.chip.Chip
@@ -197,6 +198,7 @@
                             android:layout_height="wrap_content"
                             android:text="MC"
                             android:checkable="true"
+                            android:textColor="@color/chip_text_color_selector"
                             app:chipBackgroundColor="@color/chip_selector"/>
                     </com.google.android.material.chip.ChipGroup>
 
@@ -223,6 +225,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30 Minutes"
+                            android:textColor="@color/chip_text_color_selector"
                             android:checkable="true"
                             app:chipBackgroundColor="@color/chip_selector"/>
 
@@ -231,6 +234,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1 Hour"
+                            android:textColor="@color/chip_text_color_selector"
                             android:checkable="true"
                             app:chipBackgroundColor="@color/chip_selector"/>
 
@@ -239,6 +243,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2 Hours"
+                            android:textColor="@color/chip_text_color_selector"
                             android:checkable="true"
                             app:chipBackgroundColor="@color/chip_selector"/>
 
@@ -247,6 +252,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Whole Day"
+                            android:textColor="@color/chip_text_color_selector"
                             android:checkable="true"
                             app:chipBackgroundColor="@color/chip_selector"/>
                     </com.google.android.material.chip.ChipGroup>

@@ -30,13 +30,12 @@ class InvoiceViewModel(application: Application) : AndroidViewModel(application)
 
     private val historyDao = HistoryDao(application)
 
-
-    val formatter = SimpleDateFormat("yyyy-MM-dd hh-mm-ss a", Locale.getDefault())
-    val timestamp = formatter.format(Date())
-    val fileName = "ComedianInvoice - $timestamp.pdf"
+    var currentFileName: String = ""
+        private set
 
     // Function to generate the PDF (use suspend to keep it asynchronous)
     suspend fun generateInvoicePDF(context: Context): Boolean {
+        prepareFileName()
         val pdfService = PdfService(context)
         return  pdfService.createInvoicePDF(
             comedianName = "String",
@@ -57,7 +56,7 @@ class InvoiceViewModel(application: Application) : AndroidViewModel(application)
             jobType.value ?: "",
             jobDuration.value ?: "",
             amountCharged.value ?: "",
-            fileName
+            currentFileName
         )
     }
 
@@ -84,13 +83,18 @@ class InvoiceViewModel(application: Application) : AndroidViewModel(application)
                     jobType = jobType.value.orEmpty(),
                     jobDuration = jobDuration.value.orEmpty(),
                     amountCharged = amountCharged.value.orEmpty(),
-                    fileName = fileName
+                    fileName = currentFileName
                 )
                 historyDao.insertRecord(record)
             } catch (e: Exception) {
                 Log.e("InvoiceViewModel", "Database insert failed", e)
             }
         }
+    }
 
+   private fun prepareFileName() {
+        val formatter = SimpleDateFormat("yyyy-MM-dd hh-mm-ss a", Locale.getDefault())
+        val timestamp = formatter.format(Date())
+        currentFileName = "ComedianInvoice - $timestamp.pdf"
     }
 }

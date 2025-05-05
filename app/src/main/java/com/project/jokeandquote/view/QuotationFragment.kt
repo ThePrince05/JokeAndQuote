@@ -80,6 +80,7 @@ class QuotationFragment : FadeThroughFragment(R.layout.fragment_quotation) {
         }
 
 
+
         // Text fields
         binding.clientInput.doAfterTextChanged { editable ->
             if (fromUser) {

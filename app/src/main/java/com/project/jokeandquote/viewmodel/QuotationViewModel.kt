@@ -27,13 +27,12 @@ class QuotationViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val historyDao = HistoryDao(application)
 
-
-    val formatter = SimpleDateFormat("yyyy-MM-dd hh-mm-ss a", Locale.getDefault())
-    val timestamp = formatter.format(Date())
-    val fileName = "ComedianQuotation - $timestamp.pdf"
+    var currentFileName: String = ""
+        private set
 
     // Function to generate the PDF (use suspend to keep it asynchronous)
     suspend fun generateQuotationPDF(context: Context): Boolean {
+        prepareFileName()
         val pdfService = PdfService(context)
         return pdfService.createQuotationPDF(
             comedianName = "String",
@@ -52,7 +51,7 @@ class QuotationViewModel(application: Application) : AndroidViewModel(applicatio
             jobType.value ?: "",
             jobDuration.value ?: "",
             amountCharged.value ?: "",
-            fileName
+            currentFileName
         )
     }
 
@@ -79,12 +78,18 @@ class QuotationViewModel(application: Application) : AndroidViewModel(applicatio
                     jobType = jobType.value.orEmpty(),
                     jobDuration = jobDuration.value.orEmpty(),
                     amountCharged = amountCharged.value.orEmpty(),
-                    fileName = fileName
+                    fileName = currentFileName
                 )
                 historyDao.insertRecord(record)
             } catch (e: Exception) {
                 Log.e("QuotationViewModel", "Database insert failed", e)
             }
         }
+    }
+
+    private fun prepareFileName() {
+        val formatter = SimpleDateFormat("yyyy-MM-dd hh-mm-ss a", Locale.getDefault())
+        val timestamp = formatter.format(Date())
+        currentFileName = "ComedianQuotation - $timestamp.pdf"
     }
 }
