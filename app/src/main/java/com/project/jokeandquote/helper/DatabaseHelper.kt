@@ -17,6 +17,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 type TEXT NOT NULL,  -- "Invoice" or "Quotation"
                 dateIssued TEXT,
+                invoiceNumber TEXT,
                 clientName TEXT,
                 eventName TEXT,
                 eventAddress TEXT,
@@ -43,7 +44,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 accountNumber TEXT,
                 accountType TEXT,
                 nameOnAccount TEXT,
-                imageUrl TEXT
+                logoUri TEXT
             );
         """.trimIndent()
 

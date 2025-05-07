@@ -14,18 +14,23 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import com.project.jokeandquote.R
+import com.project.jokeandquote.service.TalentDetailsDao
 import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var bottomBar: ChipNavigationBar
-
+    var isSetupComplete = false
 
 
 
@@ -43,20 +48,53 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
-
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
         bottomBar = findViewById(R.id.bottomBar)
 
-        // Set default selection
-        bottomBar.setItemSelected(R.id.Quotation, true)
+        // Launch a coroutine to check TalentDetails
+        lifecycleScope.launch {
+            val dao = TalentDetailsDao(applicationContext)
+            val hasDetails = dao.hasTalentDetails()
+
+            if (!hasDetails) {
+                // Setup not complete: show dialog and redirect to Settings
+                MaterialAlertDialogBuilder(this@MainActivity)
+                    .setTitle("Setup Required")
+                    .setMessage("Please set up your details in Settings before creating a quotation or invoice.")
+                    .setCancelable(false)
+                    .setPositiveButton("Go to Settings") { dialog, _ ->
+                        dialog.dismiss()
+                        bottomBar.setItemSelected(R.id.Settings, true)
+                        navController.navigate(R.id.settingsFragment)
+                    }
+                    .show()
+            } else {
+                // Setup is complete
+                isSetupComplete = true
+                bottomBar.setItemSelected(R.id.Quotation, true)
+                navController.navigate(R.id.quotationsFragment)
+            }
+        }
 
         bottomBar.setOnItemSelectedListener { id ->
-            when (id) {
+            if (!isSetupComplete && id != R.id.Settings) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("Setup Required")
+                    .setMessage("Please complete setup in Settings before accessing other sections.")
+                    .setCancelable(false)
+                    .setPositiveButton("Go to Settings") { dialog, _ ->
+                        dialog.dismiss()
+                        bottomBar.setItemSelected(R.id.Settings, true)
+                        navController.navigate(R.id.settingsFragment)
+                    }
+                    .show()
+                return@setOnItemSelectedListener
+            }
 
+            when (id) {
                 R.id.Quotation -> navController.navigate(R.id.quotationsFragment)
                 R.id.Invoice -> navController.navigate(R.id.invoiceFragment)
                 R.id.History -> navController.navigate(R.id.historyFragment)
@@ -83,7 +121,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private var onPermissionGrantedCallback: (() -> Unit)? = null
-
-
 
 }

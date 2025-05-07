@@ -10,6 +10,7 @@ data class HistoryRecord (
     val dateIssued: String,
     val clientName: String,
     val eventName: String,
+    val invoiceNumber: String?,
     val eventAddress: String?,
     val eventLocation: String?,
     val eventDate: String?,

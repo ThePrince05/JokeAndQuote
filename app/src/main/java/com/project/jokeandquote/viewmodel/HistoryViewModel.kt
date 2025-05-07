@@ -17,12 +17,32 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import java.io.File
 import com.project.jokeandquote.model.Resource
+import com.project.jokeandquote.model.TalentDetailsRecord
+import com.project.jokeandquote.service.TalentDetailsDao
 import kotlinx.coroutines.withContext
 
 
 class HistoryViewModel(application: Application, private val pdfService: PdfService) : AndroidViewModel(application) {
+    private val dao = TalentDetailsDao(application)
+    val talentDetails = MutableLiveData<TalentDetailsRecord?>()
+
+
 
     // MutableLiveData for internal updates
+    val comedianName = MutableLiveData("")
+    val comedianOfficeAddress = MutableLiveData("")
+    val comedianPhoneNumber = MutableLiveData("")
+    val comedianEmailAddress = MutableLiveData("")
+    val comedianBankName = MutableLiveData("")
+    val comedianAccountNumber = MutableLiveData("")
+    val comedianAccountType = MutableLiveData("")
+    val comedianNameOnAccount = MutableLiveData("")
+    val logoUri = MutableLiveData("")
+
+    init {
+        loadTalentDetails()
+    }
+
     val searchText = MutableLiveData<String>()
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -135,14 +155,15 @@ class HistoryViewModel(application: Application, private val pdfService: PdfServ
     // Helper function to generate Quotation PDF
     private suspend fun generateQuotationPdf(record: HistoryRecord): Boolean {
         return pdfService.createQuotationPDF(
-            comedianName = "String",
-            comedianOfficeAddress = "String",
-            comedianPhoneNumber = "String",
-            comedianEmailAddress = "String",
-            comedianBankName = "String",
-            comedianAccountNumber = "String",
-            comedianAccountType = "String",
-            comedianNameOnAccount = "String",
+            comedianName = comedianName.value ?: "",
+            comedianOfficeAddress = comedianOfficeAddress.value ?: "",
+            comedianPhoneNumber = comedianPhoneNumber.value ?: "",
+            comedianEmailAddress = comedianEmailAddress.value ?: "",
+            comedianBankName = comedianBankName.value ?: "",
+            comedianAccountNumber = comedianAccountNumber.value ?: "",
+            comedianAccountType = comedianAccountType.value ?: "",
+            comedianNameOnAccount = comedianNameOnAccount.value ?: "",
+            logoUri = logoUri.value ?: "",
             clientName = record.clientName ?: "",
             eventName = record.eventName ?: "",
             eventLocation = record.eventLocation ?: "",  // Default to empty string if null
@@ -159,14 +180,15 @@ class HistoryViewModel(application: Application, private val pdfService: PdfServ
     // Helper function to generate Invoice PDF
     private suspend fun generateInvoicePdf(record: HistoryRecord): Boolean {
         return pdfService.createInvoicePDF(
-            comedianName = "String",
-            comedianOfficeAddress = "String",
-            comedianPhoneNumber = "String",
-            comedianEmailAddress = "String",
-            comedianBankName = "String",
-            comedianAccountNumber = "String",
-            comedianAccountType = "String",
-            comedianNameOnAccount = "String",
+            comedianName = comedianName.value ?: "",
+            comedianOfficeAddress = comedianOfficeAddress.value ?: "",
+            comedianPhoneNumber = comedianPhoneNumber.value ?: "",
+            comedianEmailAddress = comedianEmailAddress.value ?: "",
+            comedianBankName = comedianBankName.value ?: "",
+            comedianAccountNumber = comedianAccountNumber.value ?: "",
+            comedianAccountType = comedianAccountType.value ?: "",
+            comedianNameOnAccount = comedianNameOnAccount.value ?: "",
+            logoUri = logoUri.value ?: "",
             clientName = record.clientName ?: "",
             eventName = record.eventName ?: "",
             eventAddress = record.eventAddress ?: "",   // Default to empty string if null
@@ -180,5 +202,21 @@ class HistoryViewModel(application: Application, private val pdfService: PdfServ
             fileName = record.fileName,
             historyRecord = record
         )
+    }
+
+    private fun loadTalentDetails() {
+        viewModelScope.launch {
+            val details = dao.getRecords().firstOrNull()
+            talentDetails.postValue(details)
+            comedianName.postValue(details?.name)
+            comedianOfficeAddress.postValue(details?.officeAddress)
+            comedianPhoneNumber.postValue(details?.phoneNumber)
+            comedianEmailAddress.postValue(details?.emailAddress)
+            comedianBankName.postValue(details?.bankName)
+            comedianAccountNumber.postValue(details?.accountNumber)
+            comedianAccountType.postValue(details?.accountType)
+            comedianNameOnAccount.postValue(details?.nameOnAccount)
+            logoUri.postValue(details?.logoUri)
+        }
     }
 }

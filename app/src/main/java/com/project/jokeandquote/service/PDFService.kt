@@ -23,11 +23,15 @@ import android.net.Uri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.project.jokeandquote.R
 import com.project.jokeandquote.model.HistoryRecord
+import com.tom_roush.pdfbox.cos.COSName
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
 import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
 import com.tom_roush.pdfbox.pdmodel.font.PDType0Font
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
+import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
+import com.tom_roush.pdfbox.pdmodel.interactive.form.PDAcroForm
+import com.tom_roush.pdfbox.util.Matrix
 import java.util.*
 
 class PdfService(private val context: Context) {
@@ -47,6 +51,7 @@ class PdfService(private val context: Context) {
         comedianAccountNumber: String,
         comedianAccountType: String,
         comedianNameOnAccount: String,
+        logoUri: String,
         clientName: String,
         eventName: String,
         eventLocation: String,
@@ -77,19 +82,74 @@ class PdfService(private val context: Context) {
             val contentStream = PDPageContentStream(document, page)
 
             // logo image
-            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.logo)
-            val stream = ByteArrayOutputStream().apply {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, this)
+            try {
+                val uri = Uri.parse(logoUri)
+                val inputStream = context.contentResolver.openInputStream(uri)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+
+                bitmap?.let {
+                    val stream = ByteArrayOutputStream().apply {
+                        it.compress(Bitmap.CompressFormat.PNG, 100, this)
+                    }
+                    val image = PDImageXObject.createFromByteArray(document, stream.toByteArray(), "image")
+
+                    val imageWidth = 212.625f
+                    val imageHeight = 190.745f
+                    val imageX = (pageSize.width - imageWidth) / 2
+                    val imageY = pageSize.height - margin - imageHeight
+                    contentStream.drawImage(image, imageX, imageY, imageWidth, imageHeight)
+                }
+            } catch (e: Exception) {
+                // Handle error if logoUri is invalid or there's an issue with the image
+                Log.e("CreateQuotationPDF", "Error loading logo from URI", e)
+                return@withContext false
             }
-            val image = PDImageXObject.createFromByteArray(document, stream.toByteArray(), "image")
 
-            val imageWidth  = 212.625f
-            val imageHeight = 190.745f
-            val imageX = (pageSize.width - imageWidth) / 2
-            val imageY = pageSize.height - margin - imageHeight
-            contentStream.drawImage(image, imageX, imageY, imageWidth, imageHeight)
+          /*  // UNOFFICIAL Watermark Section
+            contentStream.saveGraphicsState()
 
-            val textY = imageY - 50f
+            // Create and configure the extended graphics state
+            val gs = PDExtendedGraphicsState().apply {
+                nonStrokingAlphaConstant = 0.1f // Low opacity
+                strokingAlphaConstant = 0.1f
+            }
+
+            // Add the graphics state to the page resources
+            val gsName = COSName.getPDFName("GS1")
+            page.resources.put(gsName, gs)
+
+            // Set the graphics state parameters
+            contentStream.setGraphicsStateParameters(gs)
+
+            contentStream.beginText()
+            contentStream.setFont(fontBold, 100f)
+            contentStream.setNonStrokingColor(200, 0, 0) // Light red watermark
+
+            // Apply rotation and positioning (diagonal)
+            val watermarkText = "UNOFFICIAL"
+            val fontSize = 100f
+            val stringWidth = fontBold.getStringWidth(watermarkText) / 1000 * fontSize
+            val fontHeight = fontBold.boundingBox.height / 1000 * fontSize
+
+            val pageWidth = page.mediaBox.width
+            val pageHeight = page.mediaBox.height
+            val centerX = pageWidth / 2
+            val centerY = pageHeight / 2
+            val angle = Math.toRadians(45.0)
+
+            // Rotate around center of page, then shift to center the text
+            val transform = Matrix.getRotateInstance(angle, centerX, centerY)
+            transform.translate(-stringWidth / 2, -fontHeight / 4)
+
+            contentStream.setTextMatrix(transform)
+            contentStream.showText(watermarkText)
+            contentStream.endText()
+            contentStream.restoreGraphicsState()
+
+*/
+
+
+            val textY = pageSize.height - margin - 240f
 
             // Header Information
             contentStream.beginText()
@@ -189,7 +249,7 @@ class PdfService(private val context: Context) {
             contentStream.newLineAtOffset(margin, textY - 330f)
             contentStream.showText(comedianBankName)
             contentStream.newLineAtOffset(0f, -20f)
-            contentStream.showText(comedianAccountNumber)
+            contentStream.showText("Account No: ${comedianAccountNumber}")
             contentStream.newLineAtOffset(0f, -20f)
             contentStream.showText(comedianAccountType)
             contentStream.newLineAtOffset(0f, -20f)
@@ -292,6 +352,7 @@ class PdfService(private val context: Context) {
         comedianAccountNumber: String,
         comedianAccountType: String,
         comedianNameOnAccount: String,
+        logoUri: String,
         clientName: String,
         eventName: String,
         eventAddress: String,
@@ -321,19 +382,73 @@ class PdfService(private val context: Context) {
             val fontBold = PDType0Font.load(document, context.assets.open("calibri_bold.ttf"))
             val contentStream = PDPageContentStream(document, page)
 
-            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.logo)
-            val stream = ByteArrayOutputStream().apply {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, this)
+            // logo image
+            try {
+                val uri = Uri.parse(logoUri)
+                val inputStream = context.contentResolver.openInputStream(uri)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+
+                bitmap?.let {
+                    val stream = ByteArrayOutputStream().apply {
+                        it.compress(Bitmap.CompressFormat.PNG, 100, this)
+                    }
+                    val image = PDImageXObject.createFromByteArray(document, stream.toByteArray(), "image")
+
+                    val imageWidth = 212.625f
+                    val imageHeight = 190.745f
+                    val imageX = (pageSize.width - imageWidth) / 2
+                    val imageY = pageSize.height - margin - imageHeight
+                    contentStream.drawImage(image, imageX, imageY, imageWidth, imageHeight)
+                }
+            } catch (e: Exception) {
+                // Handle error if logoUri is invalid or there's an issue with the image
+                Log.e("CreateQuotationPDF", "Error loading logo from URI", e)
+                return@withContext false
             }
-            val image = PDImageXObject.createFromByteArray(document, stream.toByteArray(), "image")
 
-            val imageWidth = 212.625f
-            val imageHeight = 190.745f
-            val imageX = (pageSize.width - imageWidth) / 2
-            val imageY = pageSize.height - margin - imageHeight
-            contentStream.drawImage(image, imageX, imageY, imageWidth, imageHeight)
+               /* // UNOFFICIAL Watermark Section
+                contentStream.saveGraphicsState()
 
-            val textY = imageY - 50f
+                // Create and configure the extended graphics state
+                val gs = PDExtendedGraphicsState().apply {
+                    nonStrokingAlphaConstant = 0.1f // Low opacity
+                    strokingAlphaConstant = 0.1f
+                }
+
+                // Add the graphics state to the page resources
+                val gsName = COSName.getPDFName("GS1")
+                page.resources.put(gsName, gs)
+
+                // Set the graphics state parameters
+                contentStream.setGraphicsStateParameters(gs)
+
+                contentStream.beginText()
+                contentStream.setFont(fontBold, 100f)
+                contentStream.setNonStrokingColor(200, 0, 0) // Light red watermark
+
+                // Apply rotation and positioning (diagonal)
+                val watermarkText = "UNOFFICIAL"
+                val fontSize = 100f
+                val stringWidth = fontBold.getStringWidth(watermarkText) / 1000 * fontSize
+                val fontHeight = fontBold.boundingBox.height / 1000 * fontSize
+
+                val pageWidth = page.mediaBox.width
+                val pageHeight = page.mediaBox.height
+                val centerX = pageWidth / 2
+                val centerY = pageHeight / 2
+                val angle = Math.toRadians(45.0)
+
+                // Rotate around center of page, then shift to center the text
+                val transform = Matrix.getRotateInstance(angle, centerX, centerY)
+                transform.translate(-stringWidth / 2, -fontHeight / 4)
+
+            contentStream.setTextMatrix(transform)
+            contentStream.showText(watermarkText)
+            contentStream.endText()
+            contentStream.restoreGraphicsState()
+*/
+
+            val textY = pageSize.height - margin - 240f
 
             // Company Information
             contentStream.beginText()
@@ -360,10 +475,15 @@ class PdfService(private val context: Context) {
             contentStream.setLineWidth(0.5f)
             contentStream.stroke()
 
-            val dateIssued = historyRecord?.dateIssued ?: SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date())
+            val currentDate = Date()
+            val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            val timestampFormat = SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault())
+
+            val dateIssued = historyRecord?.dateIssued ?: dateFormat.format(currentDate)
+            val invoiceNumber = historyRecord?.invoiceNumber
+                ?: (comedianName.sliceAndCapitalize() + timestampFormat.format(currentDate))
 
             // Invoice information
-            val invoiceNumber = comedianName.sliceAndCapitalize() + SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault()).format(Date())
             contentStream.beginText()
             contentStream.setFont(fontBold, 11f)
             contentStream.newLineAtOffset(margin, textY - 100f)
@@ -437,7 +557,7 @@ class PdfService(private val context: Context) {
             contentStream.newLineAtOffset(margin, tableStartY - 110f)
             contentStream.showText(comedianBankName)
             contentStream.newLineAtOffset(0f, -20f)
-            contentStream.showText(comedianAccountNumber)
+            contentStream.showText("Account No: ${comedianAccountNumber}")
             contentStream.newLineAtOffset(0f, -20f)
             contentStream.showText(comedianAccountType)
             contentStream.newLineAtOffset(0f, -20f)

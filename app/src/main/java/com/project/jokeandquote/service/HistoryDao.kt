@@ -19,6 +19,7 @@ class HistoryDao(private val context: Context) {
             val values = ContentValues().apply {
                 put("type", record.type)
                 put("dateIssued", record.dateIssued)
+                put("invoiceNumber", record.invoiceNumber)
                 put("clientName", record.clientName)
                 put("eventName", record.eventName)
                 put("eventAddress", record.eventAddress)
@@ -59,6 +60,7 @@ class HistoryDao(private val context: Context) {
                         id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
                         type = cursor.getString(cursor.getColumnIndexOrThrow("type")),
                         dateIssued = cursor.getString(cursor.getColumnIndexOrThrow("dateIssued")),
+                        invoiceNumber = cursor.getString(cursor.getColumnIndexOrThrow("invoiceNumber")),
                         clientName = cursor.getString(cursor.getColumnIndexOrThrow("clientName")),
                         eventName = cursor.getString(cursor.getColumnIndexOrThrow("eventName")),
                         eventAddress = cursor.getString(cursor.getColumnIndexOrThrow("eventAddress")),
@@ -102,6 +104,7 @@ class HistoryDao(private val context: Context) {
             // Use wildcard match across multiple fields
             val selection = """
             dateIssued LIKE ? OR
+            invoiceNumber LIKE ? OR
             clientName LIKE ? OR
             eventName LIKE ? OR
             eventAddress LIKE ? OR
@@ -135,6 +138,7 @@ class HistoryDao(private val context: Context) {
                         id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
                         type = cursor.getString(cursor.getColumnIndexOrThrow("type")),
                         dateIssued = cursor.getString(cursor.getColumnIndexOrThrow("dateIssued")),
+                        invoiceNumber = cursor.getString(cursor.getColumnIndexOrThrow("invoiceNumber")),
                         clientName = cursor.getString(cursor.getColumnIndexOrThrow("clientName")),
                         eventName = cursor.getString(cursor.getColumnIndexOrThrow("eventName")),
                         eventAddress = cursor.getString(cursor.getColumnIndexOrThrow("eventAddress")),

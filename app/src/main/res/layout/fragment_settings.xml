@@ -58,18 +58,18 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"/>
 
-            <!-- Name Field -->
+            <!-- Comedian Name Field -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nameInputLayout"
+                android:id="@+id/comedianNameInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
+                android:hint="Comedian Name"
                 app:boxBackgroundMode="outline"
                 android:layout_marginTop="20dp"
                 app:startIconDrawable="@drawable/ic_person"
                 app:hintEnabled="true">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nameInput"
+                    android:id="@+id/comedianNameInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -102,6 +102,7 @@
                 app:hintEnabled="true">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phoneNumberInput"
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -118,6 +119,7 @@
                 app:hintEnabled="true">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailAddressInput"
+                    android:inputType="textEmailAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -150,6 +152,7 @@
                 app:hintEnabled="true">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/accountNumberInput"
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -254,6 +257,14 @@
                 android:layout_height="wrap_content"
                 android:text="Save"
                 android:layout_marginTop="32dp"/>
+
+            <!-- Clear Button -->
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+                android:layout_marginTop="8dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

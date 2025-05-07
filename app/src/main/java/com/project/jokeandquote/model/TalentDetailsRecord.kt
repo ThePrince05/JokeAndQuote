@@ -14,5 +14,5 @@ data class TalentDetailsRecord (
     val accountNumber: String,
     val accountType: String,
     val nameOnAccount: String,
-    val imageUrl: String? = null
+    val logoUri: String
 ): Parcelable

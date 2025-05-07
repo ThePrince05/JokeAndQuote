@@ -26,7 +26,7 @@ class TalentDetailsDao(private val context: Context) {
                 put("accountNumber", record.accountNumber)
                 put("accountType", record.accountType)
                 put("nameOnAccount", record.nameOnAccount)
-                put("imageUrl", record.nameOnAccount)
+                put("logoUri", record.logoUri)
             }
             db.insert("talentDetails", null, values)
             db.close() // Close the db after operation
@@ -60,7 +60,7 @@ class TalentDetailsDao(private val context: Context) {
                     accountNumber = cursor.getString(cursor.getColumnIndexOrThrow("accountNumber")),
                     accountType = cursor.getString(cursor.getColumnIndexOrThrow("accountType")),
                     nameOnAccount = cursor.getString(cursor.getColumnIndexOrThrow("nameOnAccount")),
-                    imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("imageUrl"))
+                    logoUri = cursor.getString(cursor.getColumnIndexOrThrow("logoUri"))
                 )
                 records.add(record)
             } while (cursor.moveToNext())
@@ -96,7 +96,7 @@ class TalentDetailsDao(private val context: Context) {
                 put("accountNumber", record.accountNumber)
                 put("accountType", record.accountType)
                 put("nameOnAccount", record.nameOnAccount)
-                put("imageUrl", record.nameOnAccount)
+                put("logoUri", record.logoUri)
             }
 
             db.update(
@@ -109,6 +109,19 @@ class TalentDetailsDao(private val context: Context) {
         }
     }
 
+    fun hasTalentDetails(): Boolean {
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM talentDetails", null)
+        var hasData = false
+
+        if (cursor.moveToFirst()) {
+            hasData = cursor.getInt(0) > 0
+        }
+
+        cursor.close()
+        db.close()
+        return hasData
+    }
 
 
 }
