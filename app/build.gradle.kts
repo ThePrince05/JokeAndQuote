@@ -20,7 +20,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -65,7 +66,6 @@ dependencies {
 
 
     // Material Design
-    implementation ("com.google.android.material:material:1.10.0")
     implementation ("androidx.transition:transition-ktx:1.5.1")
     implementation ("com.google.android.material:material:1.13.0-alpha13")
 
