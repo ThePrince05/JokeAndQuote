@@ -105,7 +105,7 @@ class PdfService(private val context: Context) {
                 return@withContext false
             }
 
-          /*  // UNOFFICIAL Watermark Section
+           /* // UNOFFICIAL Watermark Section
             contentStream.saveGraphicsState()
 
             // Create and configure the extended graphics state
@@ -144,11 +144,9 @@ class PdfService(private val context: Context) {
             contentStream.setTextMatrix(transform)
             contentStream.showText(watermarkText)
             contentStream.endText()
-            contentStream.restoreGraphicsState()
+            contentStream.restoreGraphicsState()*/
 
-*/
-
-
+            
             val textY = pageSize.height - margin - 240f
 
             // Header Information
@@ -406,7 +404,8 @@ class PdfService(private val context: Context) {
                 return@withContext false
             }
 
-               /* // UNOFFICIAL Watermark Section
+/*
+               // UNOFFICIAL Watermark Section
                 contentStream.saveGraphicsState()
 
                 // Create and configure the extended graphics state
@@ -447,6 +446,7 @@ class PdfService(private val context: Context) {
             contentStream.endText()
             contentStream.restoreGraphicsState()
 */
+
 
             val textY = pageSize.height - margin - 240f
 
