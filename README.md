@@ -4,13 +4,13 @@
 
 This is a mobile MVVM Kotlin app that allows comedians to easily generate and share quotations and invoices for their services. It includes dedicated pages for Quotations, Invoices, and History, where users can view or share past records. All documents are generated as PDFs and saved in the Documents/Records folder.
 
-### ✨ Key Features
+## ✨ Key Features
 
 -	🧾 Generate professional invoices and quotations
 -	📂 View, search, and delete past records
 -	📱 Clean and intuitive user interface
 
-### 🛠️ Technologies Used
+## 🛠️ Technologies Used
 -	Kotlin
 -	Android Jetpack (LiveData, ViewModel, Navigation)
 -	SQLite (custom DAO implementation)
@@ -25,10 +25,10 @@ This is a mobile MVVM Kotlin app that allows comedians to easily generate and sh
 4.	Build and run the app, or generate an APK via:
 Build > Build Bundle(s) / APK(s) > Build APK(s)
 
-✅ Minimum SDK: 29 (Android 10)
+✅ Minimum SDK: 29 (Android 10)  
 ✅ Target SDK: 34 (Android 14)		
 
-### 🧪 Usage
+## 🧪 Usage
 Watch a quick demo of the app in action:  
 📺 [YouTube Demo](https://youtu.be/IQpegI567Sg)
 
