@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     var isSetupComplete = false
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -47,6 +47,12 @@ class MainActivity : AppCompatActivity() {
             }
             insets
         }
+        // Handle back gesture
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showExitDialog()
+            }
+        })
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -122,4 +128,14 @@ class MainActivity : AppCompatActivity() {
     }
     private var onPermissionGrantedCallback: (() -> Unit)? = null
 
+    private fun showExitDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Exit App")
+            .setMessage("Are you sure you want to exit the application?")
+            .setPositiveButton("Yes") { _, _ ->
+                finishAffinity() // Closes all activities
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
 }
